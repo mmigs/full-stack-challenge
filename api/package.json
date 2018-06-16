@@ -8,7 +8,7 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "bcrypt-promise": "^2.0.0",
-    "body-parser": "~1.18.2",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^4.0.0",
@@ -20,7 +20,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "sequelize": "^4.37.10",
-    "sequelize-cli": "^3.0.0",
+    "sequelize-cli": "^3.2.0",
     "serve-favicon": "~2.4.5",
     "validator": "^9.2.0"
   }
