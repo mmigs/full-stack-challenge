@@ -2,6 +2,11 @@ const Employee = require("../models").Employee;
 const EmployeeReviews = require("../models").EmployeeReviews;
 const authService = require("./../services/AuthService");
 
+/**
+ * Create new employee
+ * @param {*} req
+ * @param {*} res
+ */
 const create = async function(req, res) {
   const body = req.body;
 
@@ -27,6 +32,9 @@ const create = async function(req, res) {
   }
 };
 
+/**
+ * Get an employee record
+ */
 const getById = async function(req, res) {
   let err;
   let user = req.user.toJSON();
@@ -40,9 +48,17 @@ const getById = async function(req, res) {
   employee = await Employee.findById(employeeId, {
     include: [{ model: EmployeeReviews, as: "reviews" }]
   });
-  return ReS(res, employee);
+
+  if (employee) {
+    return ReS(res, employee);
+  } else {
+    return ReE(res, "Employee does not exist");
+  }
 };
 
+/**
+ * Update an employee record
+ */
 const updateById = async function(req, res) {
   let err;
   let user = req.user.toJSON();
@@ -55,14 +71,18 @@ const updateById = async function(req, res) {
 
   employee = await Employee.findById(employeeId);
 
-  /* update employee, but only allow certain fields */
-  await employee.update(req.body, {
-    fields: ["firstName", "lastName", "email", "phone", "password"]
-  });
-  return ReS(res, {
-    message: "Updated Sucessful",
-    employee: employee.toJSON()
-  });
+  if (employee) {
+    /* update employee, but only allow certain fields */
+    await employee.update(req.body, {
+      fields: ["firstName", "lastName", "email", "phone", "password"]
+    });
+    return ReS(res, {
+      message: "Update successful",
+      employee: employee.toJSON()
+    });
+  } else {
+    return ReE(res, "Employee does not exist");
+  }
 };
 
 const remove = async function(req, res) {
