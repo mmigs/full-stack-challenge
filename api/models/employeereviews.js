@@ -17,6 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       ]
     }
   );
-  EmployeeReviews.associate = function(models) {};
+  EmployeeReviews.associate = function(models) {
+    this.belongsTo(models.Employee, {
+      foreignKey: "employeeId"
+    });
+    this.belongsTo(models.Employee, {
+      foreignKey: "reviewerId"
+    });
+  };
   return EmployeeReviews;
 };

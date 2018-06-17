@@ -45,31 +45,24 @@ const getById = async function(req, res) {
 
 const updateById = async function(req, res) {
   let err;
-  let user = req.user;
-  let employeedId = req.params.id;
+  let user = req.user.toJSON();
+  let employeeId = req.params.id;
   let employee;
-  let data;
 
   if (!user.admin) {
-    return ReE(res, "You must be an admin to edit user");
+    return ReE(res, "You don't have rights to edit this employee");
   }
 
-  employee = Employee.getById(employeedId).then(match => {
-    console.log(match);
+  employee = await Employee.findById(employeeId);
+
+  /* update employee, but only allow certain fields */
+  await employee.update(req.body, {
+    fields: ["firstName", "lastName", "email", "phone", "password"]
   });
-
-  console.log("update", req.params.id);
-  //   emplo;
-  //   data = req.body;
-  //   user.set(data);
-
-  //   [err, user] = await to(user.save());
-  //   if (err) {
-  //     if (err.message == "Validation error")
-  //       err = "The email address is already in use";
-  //     return ReE(res, err);
-  //   }
-  //   return ReS(res, { message: "Updated User: " + user.email });
+  return ReS(res, {
+    message: "Updated Sucessful",
+    employee: employee.toJSON()
+  });
 };
 
 const remove = async function(req, res) {
