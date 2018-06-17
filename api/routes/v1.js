@@ -73,5 +73,11 @@ router.post(
   custom.isAdmin,
   EmployeeReviewController.createEmployeeReview
 );
+router.post(
+  "/reviews/employee/:employeeId/assign/:reviewerId",
+  passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
+  EmployeeReviewController.assignReview
+);
 
 module.exports = router;

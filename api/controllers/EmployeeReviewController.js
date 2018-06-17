@@ -122,9 +122,44 @@ const updateEmployeeReview = async function(req, res) {
   }
 };
 
+/**
+ * Create an employee review
+ */
+const assignReview = async function(req, res) {
+  let user = req.user.toJSON();
+  let employeeId = req.params.employeeId;
+  let reviewerId = req.params.reviewerId;
+  let reviewData = {
+    employeeId,
+    reviewerId,
+    status: "ASSIGNED"
+  };
+
+  if (reviewData.reviewerId === reviewData.employeeId) {
+    return ReE(res, "Employee can not review themself");
+  }
+
+  return await EmployeeReviews.create(reviewData)
+    .then(data => {
+      return ReS(res, data, 201);
+    })
+    .catch(err => {
+      if (err.type === Sequelize.SequelizeUniqueConstraintError) {
+        return ReE(
+          res,
+          "Reviewer can only provide an employee review once",
+          422
+        );
+      } else {
+        return ReE(res, err, 422);
+      }
+    });
+};
+
 module.exports = {
   getById,
   getEmployeeReviews,
   createEmployeeReview,
-  updateEmployeeReview
+  updateEmployeeReview,
+  assignReview
 };
