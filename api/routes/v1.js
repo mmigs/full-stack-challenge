@@ -61,5 +61,11 @@ router.get(
   custom.isAdmin,
   EmployeeReviewController.getEmployeeReviews
 );
+router.post(
+  "/reviews/employee/:id",
+  passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
+  EmployeeReviewController.createEmployeeReview
+);
 
 module.exports = router;

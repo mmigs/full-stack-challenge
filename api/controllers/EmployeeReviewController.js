@@ -1,6 +1,7 @@
 const Employee = require("../models").Employee;
 const EmployeeReviews = require("../models").EmployeeReviews;
-const authService = require("./../services/AuthService");
+const validator = require("validator");
+const Sequelize = require("sequelize");
 
 /**
  * Get an employee record
@@ -49,7 +50,47 @@ const getEmployeeReviews = async function(req, res) {
   }
 };
 
+/**
+ * Get an employee record
+ */
+const createEmployeeReview = async function(req, res) {
+  let user = req.user.toJSON();
+  let employeeId = req.params.id;
+  let reviewData = req.body;
+  let review;
+
+  reviewData.employeeId = employeeId;
+
+  /* if no reviewer id, use logged in user */
+  if (!reviewData.reviewerId) {
+    reviewData.reviewerId = user.id;
+  }
+
+  if (!reviewData.review || validator.isEmpty(reviewData.review)) {
+    return ReE(res, "Review text must not be empty");
+  } else if (reviewData.reviewerId === reviewData.employeeId) {
+    return ReE(res, "Employee can not review themself");
+  }
+
+  return await EmployeeReviews.create(reviewData)
+    .then(data => {
+      return ReS(res, data, 201);
+    })
+    .catch(err => {
+      if (err.type === Sequelize.SequelizeUniqueConstraintError) {
+        return ReE(
+          res,
+          "Reviewer can only provide an employee review once",
+          422
+        );
+      } else {
+        return ReE(res, err, 422);
+      }
+    });
+};
+
 module.exports = {
   getById,
-  getEmployeeReviews
+  getEmployeeReviews,
+  createEmployeeReview
 };
