@@ -4,8 +4,8 @@ const bcrypt_p = require("bcrypt-promise");
 const jwt = require("jsonwebtoken");
 
 module.exports = (sequelize, DataTypes) => {
-  var employee = sequelize.define(
-    "employee",
+  var Employee = sequelize.define(
+    "Employee",
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
@@ -30,19 +30,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  employee.associate = function(models) {
+  Employee.associate = function(models) {
     // associations can be defined here
-    this.hasMany(models.employee_reviews, {
+    this.hasMany(models.EmployeeReviews, {
       foreignKey: "employeeId",
       as: "reviews"
     });
-    this.hasMany(models.employee_reviews, {
+    this.hasMany(models.EmployeeReviews, {
       foreignKey: "reviewerId",
       as: "reviewsWritten"
     });
   };
 
-  employee.beforeSave(async (user, options) => {
+  Employee.beforeSave(async (user, options) => {
     let err;
     if (user.changed("password")) {
       let salt, hash;
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  employee.prototype.comparePassword = async function(pw) {
+  Employee.prototype.comparePassword = async function(pw) {
     let err, pass;
     if (!this.password) TE("password not set");
 
@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
     return this;
   };
 
-  employee.prototype.getJWT = function() {
+  Employee.prototype.getJWT = function() {
     let expiration_time = parseInt(CONFIG.jwt_expiration);
     return (
       "Bearer " +
@@ -78,10 +78,10 @@ module.exports = (sequelize, DataTypes) => {
     );
   };
 
-  employee.prototype.toWeb = function(pw) {
+  Employee.prototype.toWeb = function(pw) {
     let json = this.toJSON();
     return json;
   };
 
-  return employee;
+  return Employee;
 };

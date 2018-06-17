@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var employee_reviews = sequelize.define(
-    "employee_reviews",
+  var EmployeeReviews = sequelize.define(
+    "EmployeeReviews",
     {
       employeeId: DataTypes.INTEGER,
       reviewerId: DataTypes.INTEGER,
@@ -17,6 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       ]
     }
   );
-  employee_reviews.associate = function(models) {};
-  return employee_reviews;
+  EmployeeReviews.associate = function(models) {};
+  return EmployeeReviews;
 };
