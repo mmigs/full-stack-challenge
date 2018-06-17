@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       employeeId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "employee",
@@ -16,6 +17,7 @@ module.exports = {
         }
       },
       reviewerId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "employee",
@@ -26,6 +28,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       status: {
+        allowNull: false,
         type: Sequelize.ENUM("ASSIGNED", "PENDING", "APPROVED")
       },
       createdAt: {
