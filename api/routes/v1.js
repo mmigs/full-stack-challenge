@@ -21,8 +21,13 @@ router.get("/", function(req, res, next) {
 router.post("/login", AuthController.login);
 router.post("/employees", EmployeeController.create);
 router.put(
-  "/employees",
+  "/employees/:id",
   passport.authenticate("jwt", { session: false }),
-  EmployeeController.update
+  EmployeeController.updateById
+);
+router.get(
+  "/employees/:id",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeController.getById
 );
 module.exports = router;
