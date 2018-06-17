@@ -10,17 +10,17 @@ const getById = async function(req, res) {
   let err;
   let user = req.user.toJSON();
   let reviewId = req.params.id;
-  let employee;
+  let review;
 
-  employee = await EmployeeReviews.findById(reviewId, {
+  review = await EmployeeReviews.findById(reviewId, {
     include: [
       { model: Employee, as: "employee" },
       { model: Employee, as: "reviewer" }
     ]
   });
 
-  if (employee) {
-    return ReS(res, employee);
+  if (review) {
+    return ReS(res, review);
   } else {
     return ReE(res, "Review does not exist");
   }
@@ -178,11 +178,53 @@ const getAssignedReviews = async function(req, res) {
   return ReS(res, assigned);
 };
 
+/**
+ * Provide an employee review
+ */
+const provideReview = async function(req, res) {
+  let user = req.user.toJSON();
+  let reviewId = req.params.id;
+  let reviewData = req.body;
+  let review;
+
+  reviewData.reviewerId = user.id;
+  if (!reviewData.review || validator.isEmpty(reviewData.review)) {
+    return ReE(res, "Review text must not be empty");
+  }
+
+  review = await EmployeeReviews.findById(reviewId, {
+    include: [
+      { model: Employee, as: "employee" },
+      { model: Employee, as: "reviewer" }
+    ]
+  });
+
+  if (!review) {
+    return ReE(res, "Review does not exist");
+  } else if (review.reviewerId !== user.id) {
+    return ReE(res, "Employee does not have permission to provide review");
+  } else if (review.status === "APPROVED") {
+    return ReE(res, "Employee does not have permission to edit this review");
+  }
+
+  /* only allow updating the review text itself, update status from ASSIGNED */
+  reviewData.status = "PENDING";
+  await review.update(reviewData, {
+    fields: ["review", "status"]
+  });
+
+  return ReS(res, {
+    message: "Update successful",
+    review: review.toJSON()
+  });
+};
+
 module.exports = {
   getById,
   getEmployeeReviews,
   createEmployeeReview,
   updateEmployeeReview,
   assignReview,
-  getAssignedReviews
+  getAssignedReviews,
+  provideReview
 };

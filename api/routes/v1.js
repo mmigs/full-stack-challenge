@@ -48,7 +48,7 @@ router.delete(
   EmployeeController.deleteById
 );
 
-/* REVIEWS */
+/* REVIEWS: Admin actions  */
 router.get(
   "/reviews/:id",
   passport.authenticate("jwt", { session: false }),
@@ -79,10 +79,17 @@ router.post(
   custom.isAdmin,
   EmployeeReviewController.assignReview
 );
+
+/* REVIEWS: Employee actions */
 router.get(
   "/feedback/assigned",
   passport.authenticate("jwt", { session: false }),
   EmployeeReviewController.getAssignedReviews
+);
+router.put(
+  "/feedback/:id",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeReviewController.provideReview
 );
 
 module.exports = router;
