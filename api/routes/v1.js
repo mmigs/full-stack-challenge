@@ -25,22 +25,26 @@ router.post("/login", AuthController.login);
 router.get(
   "/employees",
   passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
   EmployeeController.getAll
 );
 router.post("/employees", EmployeeController.create);
 router.put(
   "/employees/:id",
   passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
   EmployeeController.updateById
 );
 router.get(
   "/employees/:id",
   passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
   EmployeeController.getById
 );
 router.delete(
   "/employees/:id",
   passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
   EmployeeController.deleteById
 );
 
@@ -48,6 +52,7 @@ router.delete(
 router.get(
   "/reviews/:id",
   passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
   EmployeeReviewController.getById
 );
 

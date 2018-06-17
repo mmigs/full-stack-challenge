@@ -36,14 +36,8 @@ const create = async function(req, res) {
  * Get an employee record
  */
 const getById = async function(req, res) {
-  let err;
-  let user = req.user.toJSON();
   let employeeId = req.params.id;
   let employee;
-
-  if (!user.admin && employeeId != user.id) {
-    return ReE(res, "You don't have rights to view this employee");
-  }
 
   employee = await Employee.findById(employeeId, {
     include: [
@@ -66,13 +60,6 @@ const getById = async function(req, res) {
 };
 
 const getAll = async function(req, res) {
-  let err;
-  let user = req.user.toJSON();
-
-  if (!user.admin) {
-    return ReE(res, "You don't have rights to view employees");
-  }
-
   return ReS(res, { employees: await Employee.findAll() });
 };
 
@@ -80,7 +67,6 @@ const getAll = async function(req, res) {
  * Update an employee record
  */
 const updateById = async function(req, res) {
-  let err;
   let user = req.user.toJSON();
   let employeeId = req.params.id;
   let employee;
@@ -109,10 +95,8 @@ const updateById = async function(req, res) {
  * Delete an employee
  */
 const deleteById = async function(req, res) {
-  let err;
   let user = req.user.toJSON();
   let employeeId = req.params.id;
-  let count;
 
   if (!user.admin) {
     return ReE(res, "You don't have rights to edit this employee");
