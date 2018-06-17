@@ -46,7 +46,16 @@ const getById = async function(req, res) {
   }
 
   employee = await Employee.findById(employeeId, {
-    include: [{ model: EmployeeReviews, as: "reviews" }]
+    include: [
+      {
+        model: EmployeeReviews,
+        as: "reviews",
+        include: [
+          { model: Employee, as: "employee" },
+          { model: Employee, as: "reviewer" }
+        ]
+      }
+    ]
   });
 
   if (employee) {
