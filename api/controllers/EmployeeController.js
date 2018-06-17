@@ -56,6 +56,17 @@ const getById = async function(req, res) {
   }
 };
 
+const getAll = async function(req, res) {
+  let err;
+  let user = req.user.toJSON();
+
+  if (!user.admin) {
+    return ReE(res, "You don't have rights to view employees");
+  }
+
+  return ReS(res, { employees: await Employee.findAll() });
+};
+
 /**
  * Update an employee record
  */
@@ -116,6 +127,7 @@ const deleteById = async function(req, res) {
 module.exports = {
   create,
   getById,
+  getAll,
   updateById,
   deleteById
 };

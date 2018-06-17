@@ -19,6 +19,11 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/login", AuthController.login);
+router.get(
+  "/employees",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeController.getAll
+);
 router.post("/employees", EmployeeController.create);
 router.put(
   "/employees/:id",
