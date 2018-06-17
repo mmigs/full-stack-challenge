@@ -79,5 +79,10 @@ router.post(
   custom.isAdmin,
   EmployeeReviewController.assignReview
 );
+router.get(
+  "/feedback/assigned",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeReviewController.getAssignedReviews
+);
 
 module.exports = router;

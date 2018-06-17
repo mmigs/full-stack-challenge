@@ -156,10 +156,33 @@ const assignReview = async function(req, res) {
     });
 };
 
+/**
+ * Create an employee review
+ */
+const getAssignedReviews = async function(req, res) {
+  let user = req.user.toJSON();
+  let reviewerId = user.id;
+  let assigned;
+
+  assigned = await EmployeeReviews.findAll({
+    where: {
+      reviewerId: reviewerId,
+      status: "ASSIGNED"
+    },
+    include: [
+      { model: Employee, as: "employee" },
+      { model: Employee, as: "reviewer" }
+    ]
+  });
+
+  return ReS(res, assigned);
+};
+
 module.exports = {
   getById,
   getEmployeeReviews,
   createEmployeeReview,
   updateEmployeeReview,
-  assignReview
+  assignReview,
+  getAssignedReviews
 };
