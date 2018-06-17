@@ -3,6 +3,7 @@ const router = express.Router();
 
 const AuthController = require("./../controllers/AuthController");
 const EmployeeController = require("./../controllers/EmployeeController");
+const EmployeeReviewController = require("./../controllers/EmployeeReviewController");
 
 const custom = require("./../middleware/custom");
 
@@ -19,6 +20,8 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/login", AuthController.login);
+
+/* EMPLOYEES */
 router.get(
   "/employees",
   passport.authenticate("jwt", { session: false }),
@@ -40,4 +43,12 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   EmployeeController.deleteById
 );
+
+/* REVIEWS */
+router.get(
+  "/reviews/:id",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeReviewController.getById
+);
+
 module.exports = router;

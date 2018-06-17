@@ -19,9 +19,11 @@ module.exports = (sequelize, DataTypes) => {
   );
   EmployeeReviews.associate = function(models) {
     this.belongsTo(models.Employee, {
+      as: "employee",
       foreignKey: "employeeId"
     });
     this.belongsTo(models.Employee, {
+      as: "reviewer",
       foreignKey: "reviewerId"
     });
   };
