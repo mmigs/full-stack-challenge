@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       phone: {
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true,
         validate: {
           len: { args: [7, 20], msg: "Phone number invalid, too short." },
           isNumeric: { msg: "not a valid phone number." }
@@ -78,9 +77,15 @@ module.exports = (sequelize, DataTypes) => {
     );
   };
 
+  Employee.prototype.toJSON = function(pw) {
+    var values = Object.assign({}, this.get());
+    /* omit fields from return */
+    delete values.password;
+    return values;
+  };
+
   Employee.prototype.toWeb = function(pw) {
-    let json = this.toJSON();
-    return json;
+    return this.toJSON();
   };
 
   return Employee;

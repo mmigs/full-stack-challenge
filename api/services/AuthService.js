@@ -7,8 +7,6 @@ const getUniqueKeyFromBody = function(body) {
   if (typeof unique_key === "undefined") {
     if (typeof body.email != "undefined") {
       unique_key = body.email;
-    } else if (typeof body.phone != "undefined") {
-      unique_key = body.phone;
     } else {
       unique_key = null;
     }
