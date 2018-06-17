@@ -30,4 +30,9 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   EmployeeController.getById
 );
+router.delete(
+  "/employees/:id",
+  passport.authenticate("jwt", { session: false }),
+  EmployeeController.deleteById
+);
 module.exports = router;

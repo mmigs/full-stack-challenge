@@ -85,19 +85,37 @@ const updateById = async function(req, res) {
   }
 };
 
-const remove = async function(req, res) {
-  let user, err;
-  user = req.user;
+/**
+ * Delete an employee
+ */
+const deleteById = async function(req, res) {
+  let err;
+  let user = req.user.toJSON();
+  let employeeId = req.params.id;
+  let count;
 
-  [err, user] = await to(user.destroy());
-  if (err) return ReE(res, "error occured trying to delete user");
+  if (!user.admin) {
+    return ReE(res, "You don't have rights to edit this employee");
+  } else if (employeeId === user.id) {
+    return ReE(res, "Can't delete own user");
+  }
 
-  return ReS(res, { message: "Deleted User" }, 204);
+  Employee.destroy({
+    where: {
+      id: employeeId
+    }
+  })
+    .then(() => {
+      return ReS(res);
+    })
+    .catch(() => {
+      return ReE(res, "Unable to delete employee");
+    });
 };
 
 module.exports = {
   create,
   getById,
   updateById,
-  remove
+  deleteById
 };
