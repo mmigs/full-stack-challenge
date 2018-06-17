@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       employeeId: DataTypes.INTEGER,
       reviewerId: DataTypes.INTEGER,
       review: DataTypes.TEXT,
-      status: DataTypes.ENUM("ASSIGNED", "PENDING", "APPROVED")
+      status: {
+        type: DataTypes.ENUM("ASSIGNED", "PENDING", "APPROVED"),
+        defaultValue: "PENDING"
+      }
     },
     {
       indexes: [

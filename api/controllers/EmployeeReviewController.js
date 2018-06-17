@@ -51,7 +51,7 @@ const getEmployeeReviews = async function(req, res) {
 };
 
 /**
- * Get an employee record
+ * Create an employee review
  */
 const createEmployeeReview = async function(req, res) {
   let user = req.user.toJSON();
@@ -89,8 +89,42 @@ const createEmployeeReview = async function(req, res) {
     });
 };
 
+/**
+ * Update an employee review
+ */
+const updateEmployeeReview = async function(req, res) {
+  let reviewId = req.params.id;
+  let reviewData = req.body;
+  let review;
+
+  if (!reviewData.review || validator.isEmpty(reviewData.review)) {
+    return ReE(res, "Review text must not be empty");
+  }
+
+  review = await EmployeeReviews.findById(reviewId, {
+    include: [
+      { model: Employee, as: "employee" },
+      { model: Employee, as: "reviewer" }
+    ]
+  });
+
+  if (review) {
+    /* only allow updating the review text itself */
+    await review.update(reviewData, {
+      fields: ["review"]
+    });
+    return ReS(res, {
+      message: "Update successful",
+      review: review.toJSON()
+    });
+  } else {
+    return ReE(res, "Review does not exist");
+  }
+};
+
 module.exports = {
   getById,
   getEmployeeReviews,
-  createEmployeeReview
+  createEmployeeReview,
+  updateEmployeeReview
 };

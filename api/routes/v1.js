@@ -55,6 +55,12 @@ router.get(
   custom.isAdmin,
   EmployeeReviewController.getById
 );
+router.post(
+  "/reviews/:id",
+  passport.authenticate("jwt", { session: false }),
+  custom.isAdmin,
+  EmployeeReviewController.updateEmployeeReview
+);
 router.get(
   "/reviews/employee/:id",
   passport.authenticate("jwt", { session: false }),
