@@ -11,10 +11,6 @@ const getById = async function(req, res) {
   let reviewId = req.params.id;
   let employee;
 
-  if (!user.admin) {
-    return ReE(res, "You don't have rights to view this review");
-  }
-
   employee = await EmployeeReviews.findById(reviewId, {
     include: [
       { model: Employee, as: "employee" },
@@ -29,6 +25,31 @@ const getById = async function(req, res) {
   }
 };
 
+/**
+ * Get an employee record
+ */
+const getEmployeeReviews = async function(req, res) {
+  let employeeId = req.params.id;
+  let reviews;
+
+  reviews = await EmployeeReviews.findAll({
+    where: {
+      employeeId: employeeId
+    },
+    include: [
+      { model: Employee, as: "employee" },
+      { model: Employee, as: "reviewer" }
+    ]
+  });
+
+  if (reviews) {
+    return ReS(res, { reviews });
+  } else {
+    return ReE(res, "Review does not exist");
+  }
+};
+
 module.exports = {
-  getById
+  getById,
+  getEmployeeReviews
 };
