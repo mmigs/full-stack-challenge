@@ -10,6 +10,17 @@ const login = async function(req, res) {
   return ReS(res, { token: user.getJWT(), user: user.toWeb() });
 };
 
+const session = async function(req, res) {
+  let user = req.user;
+
+  if (user) {
+    return ReS(res, { token: user.getJWT(), user: user.toWeb() });
+  } else {
+    return ReE(res, "Invalid token");
+  }
+};
+
 module.exports = {
-  login
+  login,
+  session
 };

@@ -20,6 +20,11 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/login", AuthController.login);
+router.get(
+  "/session",
+  passport.authenticate("jwt", { session: false }),
+  AuthController.session
+);
 
 /* EMPLOYEES */
 router.get(
