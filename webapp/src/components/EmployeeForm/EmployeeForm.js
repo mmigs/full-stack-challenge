@@ -158,17 +158,19 @@ class EmployeeForm extends Component {
                     />
                   </td>
                 </tr> */}
-                <tr className="employees-table-item">
-                  <td>Admin</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      name="admin"
-                      checked={admin}
-                      onChange={this.handleInputChange}
-                    />
-                  </td>
-                </tr>
+                {!editMode && (
+                  <tr className="employees-table-item">
+                    <td>Admin</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="admin"
+                        checked={admin}
+                        onChange={this.handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                )}
                 {!editMode && (
                   <tr className="employees-table-item">
                     <td>Start Date</td>
