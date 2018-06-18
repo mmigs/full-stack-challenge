@@ -12,6 +12,12 @@ const getEmployeeById = employeeId => {
   });
 };
 
+const deleteEmployeeById = employeeId => {
+  return api.delete("/employees/" + employeeId).then(res => {
+    return res.data;
+  });
+};
+
 const saveEmployee = employeeData => {
   var apiData = {
     ...employeeData
@@ -46,6 +52,7 @@ const getEmployeeReviews = employeeId => {
 export default {
   getAll: getAllEmployees,
   getById: getEmployeeById,
+  deleteById: deleteEmployeeById,
   save: saveEmployee,
   getEmployeeReviews
 };

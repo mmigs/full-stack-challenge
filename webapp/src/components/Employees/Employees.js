@@ -12,12 +12,33 @@ class Employees extends Component {
     this.state = {
       employees: []
     };
+    this.fetchEmployees = this.fetchEmployees.bind(this);
+    this.handleDeleteEmployee = this.handleDeleteEmployee.bind(this);
   }
 
   componentDidMount() {
+    this.fetchEmployees();
+  }
+
+  fetchEmployees() {
     EmployeesApi.getAll().then(data => {
       this.setState({ employees: data.employees });
     });
+  }
+
+  handleDeleteEmployee(employee) {
+    return e => {
+      e.stopPropagation();
+      let message =
+        "Are you sure you want to delete the employee record for " +
+        employee.firstName +
+        " " +
+        employee.lastName +
+        "?";
+      if (window.confirm(message)) {
+        EmployeesApi.deleteById(employee.id).then(this.fetchEmployees);
+      }
+    };
   }
 
   render() {
@@ -53,6 +74,9 @@ class Employees extends Component {
                   <td>
                     <Link to={`/employees/${employee.id}`}>Edit</Link>
                     <Link to={`/employees/${employee.id}/reviews`}>Review</Link>
+                    <a href="#" onClick={this.handleDeleteEmployee(employee)}>
+                      Del
+                    </a>
                   </td>
                 </tr>
               ))}
