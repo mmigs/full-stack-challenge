@@ -1,7 +1,7 @@
 "use strict";
-const bcrypt = require("bcrypt");
 const bcrypt_p = require("bcrypt-promise");
 const jwt = require("jsonwebtoken");
+const { createPasswordHash } = require("../utils/utils");
 
 module.exports = (sequelize, DataTypes) => {
   var Employee = sequelize.define(
@@ -44,13 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   Employee.beforeSave(async (user, options) => {
     let err;
     if (user.changed("password")) {
-      let salt, hash;
-      [err, salt] = await to(bcrypt.genSalt(10));
-      if (err) TE(err.message, true);
-
-      [err, hash] = await to(bcrypt.hash(user.password, salt));
-      if (err) TE(err.message, true);
-
+      let hash = await createPasswordHash(user.password);
       user.password = hash;
     }
   });
