@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import AdminPage from "../AdminPage/AdminPage";
 import { setUser, setToken } from "../../actions/appActions";
 import { EmployeesApi } from "../../api/Api";
+import EmployeeForm from "../EmployeeForm/EmployeeForm";
 import "./Employees.css";
 
 class Employees extends Component {
@@ -24,7 +26,7 @@ class Employees extends Component {
     return (
       <AdminPage>
         <div className="employees">
-          <table className="employees-list" cellPadding="0" cellSpacing="0">
+          <table className="employees-table" cellPadding="0" cellSpacing="0">
             <thead>
               <tr>
                 <th>Employee Id</th>
@@ -33,21 +35,30 @@ class Employees extends Component {
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Role</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {employees.map(employee => (
-                <tr key={employee.id} className="employees-list-item">
+                <tr
+                  key={employee.id}
+                  className="employees-table-item"
+                  onClick={this.handleViewEmployee}
+                >
                   <td>{employee.id}</td>
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
                   <td>{employee.email}</td>
                   <td>{employee.phone}</td>
                   <td>{employee.admin ? "Admin" : "Employee"}</td>
+                  <td>
+                    <Link to={`/employees/${employee.id}`}>View</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <Link to={`/employees/add`}>Add Employee</Link>
         </div>
       </AdminPage>
     );

@@ -1,22 +1,29 @@
-.employees {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+.employees-table {
     border-collapse: collapse;
     width: 100%;
 }
 
-.employees td, .employees th {
+.employees-table td, .employees-table th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.employees tr:nth-child(even){background-color: #f2f2f2;}
+.employees-table tr:nth-child(even){background-color: #f2f2f2;}
 
-.employees tr:hover {background-color: #ddd;}
+.employees-table tr:hover {background-color: #ddd;}
 
-.employees th {
+.employees-table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
     background-color: #4CAF50;
     color: white;
+}
+
+.employees-table .employees-table-item:hover {
+    cursor: pointer;
+}
+
+.employees-table .employees-table-item.align-right {
+    text-align: right;
 }

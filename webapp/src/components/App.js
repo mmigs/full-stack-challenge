@@ -7,20 +7,26 @@ import Login from "./Login/Login";
 import Employees from "./Employees/Employees";
 import Home from "./Home/Home";
 import { setUser, setToken } from "../actions/appActions";
+import EmployeeForm from "./EmployeeForm/EmployeeForm";
 
 class App extends Component {
   render() {
     return (
       <div className="app">
-        <header className="app-header">
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Login} />
-              <Route path="/home" component={Home} />
-              <Route path="/employees" component={Employees} />
-            </Switch>
-          </Router>
-        </header>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/home" component={Home} />
+            <Route exact path="/employees" component={Employees} />
+            <Route exact path="/employees/add" component={EmployeeForm} />
+            <Route
+              path="/employees/:id"
+              exact={true}
+              component={EmployeeForm}
+            />
+            />
+          </Switch>
+        </Router>
       </div>
     );
   }
