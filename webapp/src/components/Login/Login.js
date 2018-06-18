@@ -8,7 +8,6 @@ import { setUser, setToken } from "../../actions/appActions";
 class Login extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       email: "",
       password: "",
@@ -18,7 +17,19 @@ class Login extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const storedToken = AuthService.getToken();
+
+    if (!this.state.loggedIn && storedToken) {
+      AuthService.session(storedToken).then(data => {
+        this.props.setToken(data.token);
+        this.props.setUser(data.user);
+        this.setState({
+          loggedIn: true
+        });
+      });
+    }
+  }
 
   handleInputChange(e) {
     this.setState({

@@ -22,6 +22,24 @@ const login = (email, password) => {
     });
 };
 
+const session = token => {
+  // Get a token from api server using the fetch api
+  return api
+    .get("/session", {}, { headers: { Authorization: "Bearer " + token } })
+    .then(res => {
+      if (res.data && res.data.token) {
+        /* set default header */
+        console.log("set");
+        setToken(res.data.token);
+      }
+      return res.data;
+    })
+    .catch(() => {
+      console.log("logout");
+      logout();
+    });
+};
+
 const setToken = token => {
   api.setHeader("Authorization", "Bearer " + token);
   localStorage.setItem(STORAGE_TOKEN, token);
@@ -30,7 +48,7 @@ const setToken = token => {
 const getToken = () => {
   const state = store.getState();
   const token = state.app.token;
-  return localStorage.getItem(STORAGE_TOKEN) || token;
+  return token || localStorage.getItem(STORAGE_TOKEN);
 };
 
 const logout = () => {
@@ -40,4 +58,4 @@ const logout = () => {
   store.dispatch(setAppUser(null));
 };
 
-export default { login, setToken, getToken, logout };
+export default { login, session, setToken, getToken, logout };

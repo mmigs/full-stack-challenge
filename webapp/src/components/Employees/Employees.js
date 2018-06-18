@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AdminPage from "../AdminPage/AdminPage";
 import { setUser, setToken } from "../../actions/appActions";
 import { EmployeesApi } from "../../api/Api";
-import EmployeeForm from "../EmployeeForm/EmployeeForm";
 import "./Employees.css";
 
 class Employees extends Component {
