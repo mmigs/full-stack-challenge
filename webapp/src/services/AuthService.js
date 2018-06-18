@@ -36,6 +36,8 @@ const getToken = () => {
 const logout = () => {
   api.setHeader("Authorization", "");
   localStorage.removeItem(STORAGE_TOKEN);
+  store.dispatch(setAppToken(""));
+  store.dispatch(setAppUser(null));
 };
 
 export default { login, setToken, getToken, logout };

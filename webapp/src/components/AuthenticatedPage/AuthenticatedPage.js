@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUser, setToken } from "../../actions/appActions";
+import AuthService from "../../services/AuthService";
 import "./AuthenticatedPage.css";
 
 class AuthenticatedPage extends Component {
@@ -10,7 +11,15 @@ class AuthenticatedPage extends Component {
     this.state = {
       loggedIn: !!props.token
     };
-    console.log(this.state);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(e) {
+    e.preventDefault();
+    AuthService.logout();
+    this.setState({
+      loggedIn: false
+    });
   }
 
   render() {
@@ -20,6 +29,9 @@ class AuthenticatedPage extends Component {
           <nav className="page-nav">
             <Link to="/home">Home</Link>
             <Link to="/employees">Employees</Link>
+            <a href="#" onClick={this.logout}>
+              Logout
+            </a>
           </nav>
           <section className="page-body">{this.props.children}</section>
         </div>
