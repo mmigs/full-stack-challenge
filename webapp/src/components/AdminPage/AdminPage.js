@@ -1,29 +1,31 @@
 import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import AdminPage from "../AdminPage/AdminPage";
 import { setUser, setToken } from "../../actions/appActions";
+import AuthenticatedPage from "../AuthenticatedPage/AuthenticatedPage";
 
-class Employees extends Component {
+class AdminPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      employees: []
+      isAdmin: props.user && props.user.admin,
+      loggedIn: !!props.token
     };
   }
 
   render() {
-    return (
-      <AdminPage>
-        <div className="employees">Employees Go Here</div>
-      </AdminPage>
-    );
+    if (this.state.isAdmin) {
+      return <AuthenticatedPage>{this.props.children}</AuthenticatedPage>;
+    } else {
+      return <Redirect to="/home" />;
+    }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
-    user: state.user
+    token: state.app.token,
+    user: state.app.user
   };
 };
 
@@ -41,4 +43,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Employees);
+)(AdminPage);

@@ -1,29 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import AdminPage from "../AdminPage/AdminPage";
+import AuthenticatedPage from "../AuthenticatedPage/AuthenticatedPage";
 import { setUser, setToken } from "../../actions/appActions";
 
-class Employees extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      employees: []
-    };
   }
 
   render() {
+    const { user } = this.props;
     return (
-      <AdminPage>
-        <div className="employees">Employees Go Here</div>
-      </AdminPage>
+      <AuthenticatedPage>
+        <h3>Welcome {user && user.firstName}</h3>
+      </AuthenticatedPage>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
-    user: state.user
+    token: state.app.token,
+    user: state.app.user
   };
 };
 
@@ -41,4 +39,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Employees);
+)(Home);

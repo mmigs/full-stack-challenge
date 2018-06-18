@@ -12,7 +12,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loggedIn: props.token
+      loggedIn: !!props.token
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -44,7 +44,7 @@ class Login extends Component {
     const { email, password, loggedIn } = this.state;
 
     if (loggedIn) {
-      return <Redirect to="/employees" />;
+      return <Redirect to="/home" />;
     } else {
       return (
         <div className="login">
@@ -83,8 +83,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
-    user: state.user
+    token: state.app.token,
+    user: state.app.user
   };
 };
 

@@ -5,6 +5,7 @@ import "./App.css";
 
 import Login from "./Login/Login";
 import Employees from "./Employees/Employees";
+import Home from "./Home/Home";
 import { setUser, setToken } from "../actions/appActions";
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={Login} />
+              <Route path="/home" component={Home} />
               <Route path="/employees" component={Employees} />
             </Switch>
           </Router>
