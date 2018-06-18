@@ -1,9 +1,11 @@
 import { create } from "apisauce";
+import { API_ROOT, API_TIMEOUT } from "../constants";
+import EmployeesApi from "./Employees/EmployeesApi";
 
 const api = create(
   {
-    baseURL: "http://localhost:3000/v1/",
-    timeout: 16000
+    baseURL: API_ROOT,
+    timeout: API_TIMEOUT
   },
   {},
   {
@@ -13,3 +15,4 @@ const api = create(
 );
 
 export default api;
+export { EmployeesApi };

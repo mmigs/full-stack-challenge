@@ -11,7 +11,21 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   margin: 0 auto;
   width: 320px;
+}
+
+.login form label {
+    margin: 4px 0;
+}
+
+.login form input {
+    margin-left: 8px;
+    padding: 4px;
+    width: 200px;
+}
+
+.login form button {
+    margin-top: 16px;
 }

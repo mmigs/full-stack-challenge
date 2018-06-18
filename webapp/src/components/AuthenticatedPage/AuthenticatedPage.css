@@ -1,0 +1,36 @@
+.page-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-layout .page-nav {
+  align-content: flex-start;
+  align-items: flex-start;
+  background: #f1f1f1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+.page-layout .page-nav a {
+    color: #999999;
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+.page-layout .page-nav a:visited {
+    color: #999999;
+}
+
+.page-layout .page-nav a:hover {
+    text-decoration: underline;
+}
+
+.page-layout .page-nav {
+  margin: 0px;
+}
+
+.page-layout .page-body {
+  padding: 16px;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUser, setToken } from "../../actions/appActions";
+import "./AuthenticatedPage.css";
 
 class AuthenticatedPage extends Component {
   constructor(props) {
@@ -9,19 +10,18 @@ class AuthenticatedPage extends Component {
     this.state = {
       loggedIn: !!props.token
     };
+    console.log(this.state);
   }
 
   render() {
     if (this.state.loggedIn) {
       return (
         <div className="page-layout">
-          <nav>
-            <ul>
-              <Link to="/home">Home</Link>
-              <Link to="/employees">Employees</Link>
-            </ul>
+          <nav className="page-nav">
+            <Link to="/home">Home</Link>
+            <Link to="/employees">Employees</Link>
           </nav>
-          <section>{this.props.children}</section>
+          <section className="page-body">{this.props.children}</section>
         </div>
       );
     } else {
