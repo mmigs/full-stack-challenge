@@ -17,6 +17,8 @@ const create = async function(req, res) {
     return ReE(res, "Please enter a password to register.");
   } else if (!validator.isMobilePhone(body.phone, "any")) {
     return ReE(res, "Invalid phone provided");
+  } else if (!validator.toDate(body.startDate)) {
+    return ReE(res, "Start date must be in format YYYY-MM-DD");
   } else {
     let err, employee;
 
