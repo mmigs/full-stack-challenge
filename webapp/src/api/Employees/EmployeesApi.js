@@ -7,4 +7,11 @@ const getAllEmployees = () => {
   });
 };
 
-export default { getAll: getAllEmployees };
+const getEmployeeById = employeeId => {
+  // Get a token from api server using the fetch api
+  return api.get("/employees/" + employeeId).then(res => {
+    return res.data;
+  });
+};
+
+export default { getAll: getAllEmployees, getById: getEmployeeById };

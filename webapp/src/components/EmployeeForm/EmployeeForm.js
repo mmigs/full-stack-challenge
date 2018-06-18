@@ -22,6 +22,7 @@ class EmployeeForm extends Component {
     console.log("form match", match);
     this.state = {
       editMode: !!(match && match.params && match.params.id),
+      employeeId: match && match.params && match.params.id,
       firstName: "",
       lastName: "",
       email: "",
@@ -35,15 +36,20 @@ class EmployeeForm extends Component {
   }
 
   componentDidMount() {
-    EmployeesApi.getAll().then(data => {
-      this.setState({ employees: data.employees });
-    });
+    const { employeeId } = this.state;
+    if (employeeId) {
+      EmployeesApi.getById(employeeId).then(data => {
+        this.setState(data);
+      });
+    }
   }
 
   handleInputChange(e) {
-    const { target } = e;
-    const { name } = target;
+    const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    console.log("handleInputChange", name, value);
 
     this.setState({
       [name]: value
@@ -141,21 +147,25 @@ class EmployeeForm extends Component {
                   <td>
                     <input
                       type="checkbox"
+                      name="admin"
                       checked={admin}
                       onChange={this.handleInputChange}
                     />
                   </td>
                 </tr>
-                <tr className="employees-table-item">
-                  <td>Start Date</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={startDate}
-                      onChange={this.handleInputChange}
-                    />
-                  </td>
-                </tr>
+                {!editMode && (
+                  <tr className="employees-table-item">
+                    <td>Start Date</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="startDate"
+                        value={startDate}
+                        onChange={this.handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                )}
                 <tr className="employees-table-item align-right">
                   <td colSpan="2">
                     <button type="submit">Save</button>
