@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "./Login.less";
+import { connect } from "react-redux";
+import "./Login.css";
+import AuthService from "../../services/AuthService";
+import { setUser, setToken } from "../../actions/appActions";
 
-export default class Login extends Component {
-  static propTypes = {
-    prop: PropTypes
-  };
-
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,11 +12,22 @@ export default class Login extends Component {
       password: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  componentDidMount() {}
 
   handleInputChange(e) {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  }
+
+  handleFormSubmit(e) {
+    const { email, password } = this.state;
+    e.preventDefault();
+    AuthService.login(email, password).then(data => {
+      console.log("logged in");
     });
   }
 
@@ -28,7 +37,7 @@ export default class Login extends Component {
     return (
       <div className="login">
         <h2>Login</h2>
-        <form>
+        <form onSubmit={this.handleFormSubmit}>
           <label>
             Email:
             <input
@@ -58,3 +67,26 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    token: state.token,
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setUser(user));
+    },
+    setToken: token => {
+      dispatch(setToken(token));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

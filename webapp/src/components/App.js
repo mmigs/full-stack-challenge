@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import logo from "../logo.svg";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 import "./App.css";
+
 import Login from "./Login/Login";
 import Employees from "./Employees/Employees";
+import { setUser, setToken } from "../actions/appActions";
 
 class App extends Component {
   render() {
@@ -11,8 +13,10 @@ class App extends Component {
       <div className="app">
         <header className="app-header">
           <Router>
-            <Route exact path="/" component={Login} />
-            <Route path="/employees" component={Employees} />
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route path="/employees" component={Employees} />
+            </Switch>
           </Router>
         </header>
       </div>
@@ -20,4 +24,25 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    token: state.token,
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setUser(user));
+    },
+    setToken: token => {
+      dispatch(setToken(token));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
