@@ -13,14 +13,25 @@ const getEmployeeById = employeeId => {
 };
 
 const saveEmployee = employeeData => {
+  var apiData = {
+    ...employeeData
+  };
+  delete apiData.createdAt;
+  delete apiData.editMode;
+  delete apiData.employee;
+  delete apiData.message;
+  delete apiData.reviews;
+  delete apiData.updatedAt;
+  delete apiData.passwordConfirm;
+
   if (employeeData.id) {
     /* create new employee */
-    return api.put("/employees", employeeData).then(res => {
+    return api.put("/employees/" + employeeData.id, apiData).then(res => {
       return res.data;
     });
   } else {
     /* create new employee */
-    return api.post("/employees", employeeData).then(res => {
+    return api.post("/employees", apiData).then(res => {
       return res.data;
     });
   }

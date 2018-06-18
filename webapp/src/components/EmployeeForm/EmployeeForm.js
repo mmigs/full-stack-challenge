@@ -40,7 +40,9 @@ class EmployeeForm extends Component {
     const { id } = this.state;
     if (id) {
       EmployeesApi.getById(id).then(data => {
-        this.setState(data);
+        if (data && data.id) {
+          this.setState(data);
+        }
       });
     }
   }
@@ -60,7 +62,6 @@ class EmployeeForm extends Component {
     let formData = {
       ...this.state
     };
-    delete formData.editMode;
     EmployeesApi.save(formData).then(data => {
       this.setState(data);
     });
