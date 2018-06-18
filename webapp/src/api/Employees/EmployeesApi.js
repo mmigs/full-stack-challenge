@@ -37,8 +37,15 @@ const saveEmployee = employeeData => {
   }
 };
 
+const getEmployeeReviews = employeeId => {
+  return api.get("/reviews/employee/" + employeeId).then(res => {
+    return res.data;
+  });
+};
+
 export default {
   getAll: getAllEmployees,
   getById: getEmployeeById,
-  save: saveEmployee
+  save: saveEmployee,
+  getEmployeeReviews
 };

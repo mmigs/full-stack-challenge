@@ -8,6 +8,7 @@ import Employees from "./Employees/Employees";
 import Home from "./Home/Home";
 import { setUser, setToken } from "../actions/appActions";
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
+import EmployeeReviews from "./EmployeeReviews/EmployeeReviews";
 
 class App extends Component {
   render() {
@@ -20,9 +21,14 @@ class App extends Component {
             <Route exact path="/employees" component={Employees} />
             <Route exact path="/employees/add" component={EmployeeForm} />
             <Route
-              path="/employees/:id"
-              exact={true}
+              exact
+              path="/employees/:employeeId"
               component={EmployeeForm}
+            />
+            <Route
+              exact
+              path="/employees/:employeeId/reviews"
+              component={EmployeeReviews}
             />
             />
           </Switch>

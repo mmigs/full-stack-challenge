@@ -1,3 +1,4 @@
+const validator = require("validator");
 const Employee = require("../models").Employee;
 const EmployeeReviews = require("../models").EmployeeReviews;
 const authService = require("./../services/AuthService");
@@ -10,10 +11,12 @@ const authService = require("./../services/AuthService");
 const create = async function(req, res) {
   const body = req.body;
 
-  if (!body.unique_key && !body.email && !body.phone) {
+  if (!body.unique_key && !validator.isEmail(body.email)) {
     return ReE(res, "Please enter an email to register.");
   } else if (!body.password) {
     return ReE(res, "Please enter a password to register.");
+  } else if (!validator.isMobilePhone(body.phone, "any")) {
+    return ReE(res, "Invalid phone provided");
   } else {
     let err, employee;
 
@@ -62,16 +65,23 @@ const updateById = async function(req, res) {
   let user = req.user.toJSON();
   let employeeId = req.params.id;
   let employee;
+  let employeeData = req.body;
 
   if (!user.admin) {
     return ReE(res, "You don't have rights to edit this employee");
+  }
+
+  if (!validator.isEmail(employeeData.email)) {
+    return ReE(res, "Invalid email provided");
+  } else if (!validator.isMobilePhone(employeeData.phone, "any")) {
+    return ReE(res, "Invalid phone provided");
   }
 
   employee = await Employee.findById(employeeId);
 
   if (employee) {
     /* update employee, but only allow certain fields */
-    await employee.update(req.body, {
+    await employee.update(employeeData, {
       fields: ["firstName", "lastName", "email", "phone", "password"]
     });
     return ReS(res, {

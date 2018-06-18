@@ -21,8 +21,8 @@ class EmployeeForm extends Component {
     const { match } = props;
     console.log("form match", match);
     this.state = {
-      editMode: !!(match && match.params && match.params.id),
-      id: match && match.params && match.params.id,
+      editMode: !!(match && match.params && match.params.employeeId),
+      id: match && match.params && match.params.employeeId,
       firstName: "",
       lastName: "",
       email: "",
@@ -63,8 +63,13 @@ class EmployeeForm extends Component {
       ...this.state
     };
     EmployeesApi.save(formData).then(data => {
-      this.setState(data);
-    });
+      if (!data.success) {
+        alert(data.error);
+      } else {
+        alert("Changes Saved");
+        this.setState(data);
+      }
+    }).catch;
   }
 
   render() {

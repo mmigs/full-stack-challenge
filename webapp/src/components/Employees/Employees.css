@@ -27,3 +27,10 @@
 .employees-table .employees-table-item.align-right {
     text-align: right;
 }
+
+.employees-table td a {
+    margin-right: 4px;
+}
+.employees-table td a:last-child {
+    margin-right: 0;
+}

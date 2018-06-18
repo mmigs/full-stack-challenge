@@ -51,7 +51,8 @@ class Employees extends Component {
                   <td>{employee.phone}</td>
                   <td>{employee.admin ? "Admin" : "Employee"}</td>
                   <td>
-                    <Link to={`/employees/${employee.id}`}>View</Link>
+                    <Link to={`/employees/${employee.id}`}>Edit</Link>
+                    <Link to={`/employees/${employee.id}/reviews`}>Review</Link>
                   </td>
                 </tr>
               ))}
