@@ -59,3 +59,9 @@ Create your initial admin user using
 #### Note
 
 For testing purpose: The create employee API does not need a JWT token
+
+#### Export
+
+Alternatively, you may use the db export `paytm_2018-06-18.sql` provided in the migrations folder 
+
+Admin login is: `admin@example.com`/`admin`
