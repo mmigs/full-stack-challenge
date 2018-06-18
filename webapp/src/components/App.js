@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import logo from "../logo.svg";
 import "./App.css";
-import Home from "./Home/Home";
-import Employees from "./Employees/Employees";
 import Login from "./Login/Login";
+import Employees from "./Employees/Employees";
 
 class App extends Component {
   render() {
