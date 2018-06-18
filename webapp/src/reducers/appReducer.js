@@ -1,4 +1,4 @@
-const userReducer = (
+const appReducer = (
   state = {
     token: "",
     user: null
@@ -24,4 +24,4 @@ const userReducer = (
   return state;
 };
 
-export default userReducer;
+export default appReducer;

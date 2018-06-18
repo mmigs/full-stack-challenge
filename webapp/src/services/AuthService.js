@@ -18,19 +18,19 @@ const login = (email, password) => {
         /* set default header */
         setToken(res.data.token);
       }
-      return res;
+      return res.data;
     });
 };
 
 const setToken = token => {
   api.setHeader("Authorization", "Bearer " + token);
   localStorage.setItem(STORAGE_TOKEN, token);
-  setAppToken(token);
 };
 
 const getToken = () => {
   const state = store.getState();
-  return state.app.token;
+  const token = state.app.token;
+  return localStorage.getItem(STORAGE_TOKEN) || token;
 };
 
 const logout = () => {
