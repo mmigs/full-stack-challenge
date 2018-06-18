@@ -22,7 +22,7 @@ class EmployeeForm extends Component {
     console.log("form match", match);
     this.state = {
       editMode: !!(match && match.params && match.params.id),
-      employeeId: match && match.params && match.params.id,
+      id: match && match.params && match.params.id,
       firstName: "",
       lastName: "",
       email: "",
@@ -33,12 +33,13 @@ class EmployeeForm extends Component {
       startDate: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { employeeId } = this.state;
-    if (employeeId) {
-      EmployeesApi.getById(employeeId).then(data => {
+    const { id } = this.state;
+    if (id) {
+      EmployeesApi.getById(id).then(data => {
         this.setState(data);
       });
     }
@@ -49,10 +50,19 @@ class EmployeeForm extends Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    console.log("handleInputChange", name, value);
-
     this.setState({
       [name]: value
+    });
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    let formData = {
+      ...this.state
+    };
+    delete formData.editMode;
+    EmployeesApi.save(formData).then(data => {
+      this.setState(data);
     });
   }
 
@@ -72,7 +82,7 @@ class EmployeeForm extends Component {
     return (
       <AdminPage>
         <div className="employee-form">
-          <form>
+          <form onSubmit={this.handleFormSubmit}>
             <h3>{editMode ? "Edit Employee" : "Add Employee"}</h3>
             <table className="employees-table" cellPadding="0" cellSpacing="0">
               <tbody>
@@ -131,7 +141,7 @@ class EmployeeForm extends Component {
                     />
                   </td>
                 </tr>
-                <tr className="employees-table-item">
+                {/* <tr className="employees-table-item">
                   <td>Password Confifm</td>
                   <td>
                     <input
@@ -141,7 +151,7 @@ class EmployeeForm extends Component {
                       onChange={this.handleInputChange}
                     />
                   </td>
-                </tr>
+                </tr> */}
                 <tr className="employees-table-item">
                   <td>Admin</td>
                   <td>

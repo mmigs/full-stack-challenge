@@ -9,7 +9,8 @@ class AuthenticatedPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: !!props.token
+      loggedIn: !!props.token,
+      isAdmin: props.user && props.user.admin
     };
     this.logout = this.logout.bind(this);
   }
@@ -23,12 +24,13 @@ class AuthenticatedPage extends Component {
   }
 
   render() {
-    if (this.state.loggedIn) {
+    const { isAdmin, loggedIn } = this.state;
+    if (loggedIn) {
       return (
         <div className="page-layout">
           <nav className="page-nav">
             <Link to="/home">Home</Link>
-            <Link to="/employees">Employees</Link>
+            {isAdmin && <Link to="/employees">Employees</Link>}
             <a href="#" onClick={this.logout}>
               Logout
             </a>

@@ -20,15 +20,7 @@ const create = async function(req, res) {
     [err, employee] = await to(authService.createEmployee(body));
 
     if (err) return ReE(res, err, 422);
-    return ReS(
-      res,
-      {
-        message: "Successfully created new employee.",
-        employee: employee.toWeb(),
-        token: employee.getJWT()
-      },
-      201
-    );
+    return ReS(res, employee.toJSON(), 201);
   }
 };
 
