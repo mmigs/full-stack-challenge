@@ -74,7 +74,10 @@ class Employees extends Component {
                   <td>
                     <Link to={`/employees/${employee.id}`}>Edit</Link>
                     <Link to={`/employees/${employee.id}/reviews`}>Review</Link>
-                    <a href="#" onClick={this.handleDeleteEmployee(employee)}>
+                    <a
+                      href={`/employees/${employee.id}/delete`}
+                      onClick={this.handleDeleteEmployee(employee)}
+                    >
                       Del
                     </a>
                   </td>
