@@ -27,15 +27,17 @@ const session = token => {
   return api
     .get("/session", {}, { headers: { Authorization: "Bearer " + token } })
     .then(res => {
-      if (res.data && res.data.token) {
-        /* set default header */
-        console.log("set");
-        setToken(res.data.token);
+      if (res.status === 401) {
+        logout();
+      } else {
+        if (res.data && res.data.token) {
+          /* set default header */
+          setToken(res.data.token);
+        }
+        return res.data;
       }
-      return res.data;
     })
     .catch(() => {
-      console.log("logout");
       logout();
     });
 };
