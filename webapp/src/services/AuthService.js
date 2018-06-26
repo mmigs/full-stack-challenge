@@ -14,11 +14,13 @@ const login = (email, password) => {
       password
     })
     .then(res => {
-      if (res.data && res.data.token) {
-        /* set default header */
-        setToken(res.data.token);
+      if (res.status === 200) {
+        if (res.data && res.data.token) {
+          /* set default header */
+          setToken(res.data.token);
+        }
+        return res.data;
       }
-      return res.data;
     });
 };
 

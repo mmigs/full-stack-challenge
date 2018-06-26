@@ -43,11 +43,13 @@ class Login extends Component {
 
     e.preventDefault();
     AuthService.login(email, password).then(data => {
-      setToken(data.token);
-      setUser(data.user);
-      this.setState({
-        loggedIn: true
-      });
+      if (data) {
+        setToken(data.token);
+        setUser(data.user);
+        this.setState({
+          loggedIn: true
+        });
+      }
     });
   }
 

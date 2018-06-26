@@ -5,7 +5,7 @@ const login = async function(req, res) {
   let err, user;
 
   [err, user] = await to(authService.authUser(req.body));
-  if (err) return ReE(res, err, 422);
+  if (err) return ReE(res, err, 401);
 
   return ReS(res, { token: user.getJWT(), user: user.toWeb() });
 };
