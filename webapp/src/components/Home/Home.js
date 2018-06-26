@@ -4,10 +4,6 @@ import AuthenticatedPage from "../AuthenticatedPage/AuthenticatedPage";
 import { setUser, setToken } from "../../actions/appActions";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { user } = this.props;
     return (

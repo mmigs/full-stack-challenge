@@ -28,7 +28,6 @@ class EmployeeForm extends Component {
       email: "",
       phone: "",
       password: "",
-      passwordConfirm: "",
       admin: false,
       startDate: ""
     };
@@ -69,7 +68,7 @@ class EmployeeForm extends Component {
         alert("Changes Saved");
         this.setState(data);
       }
-    }).catch;
+    });
   }
 
   render() {
@@ -79,7 +78,6 @@ class EmployeeForm extends Component {
       email,
       phone,
       password,
-      passwordConfirm,
       admin,
       startDate,
       editMode

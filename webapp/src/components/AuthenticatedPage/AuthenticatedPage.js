@@ -31,7 +31,7 @@ class AuthenticatedPage extends Component {
           <nav className="page-nav">
             <Link to="/home">Home</Link>
             {isAdmin && <Link to="/employees">Employees</Link>}
-            <a href="#" onClick={this.logout}>
+            <a href="/logout" onClick={this.logout}>
               Logout
             </a>
           </nav>
