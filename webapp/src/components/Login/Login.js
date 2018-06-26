@@ -22,11 +22,15 @@ class Login extends Component {
 
     if (!this.state.loggedIn && storedToken) {
       AuthService.session(storedToken).then(data => {
-        this.props.setToken(data.token);
-        this.props.setUser(data.user);
-        this.setState({
-          loggedIn: true
-        });
+        if (data) {
+          this.props.setToken(data.token);
+          this.props.setUser(data.user);
+          this.setState({
+            loggedIn: true
+          });
+        } else {
+          AuthService.logout();
+        }
       });
     }
   }
@@ -49,6 +53,8 @@ class Login extends Component {
         this.setState({
           loggedIn: true
         });
+      } else {
+        alert("Invalid user or password");
       }
     });
   }
