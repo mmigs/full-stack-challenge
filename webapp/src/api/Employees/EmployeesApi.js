@@ -28,7 +28,6 @@ const saveEmployee = employeeData => {
   delete apiData.message;
   delete apiData.reviews;
   delete apiData.updatedAt;
-  delete apiData.passwordConfirm;
 
   if (employeeData.id) {
     /* create new employee */

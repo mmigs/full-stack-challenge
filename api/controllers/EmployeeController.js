@@ -73,9 +73,14 @@ const updateById = async function(req, res) {
     return ReE(res, "You don't have rights to edit this employee");
   }
 
-  if (!validator.isEmail(employeeData.email)) {
+  if (employeeData.password !== undefined && !employeeData.password) {
+    return ReE(res, "Password must not be empty");
+  } else if (employeeData.email && !validator.isEmail(employeeData.email)) {
     return ReE(res, "Invalid email provided");
-  } else if (!validator.isMobilePhone(employeeData.phone, "any")) {
+  } else if (
+    employeeData.phone &&
+    !validator.isMobilePhone(employeeData.phone, "any")
+  ) {
     return ReE(res, "Invalid phone provided");
   }
 
